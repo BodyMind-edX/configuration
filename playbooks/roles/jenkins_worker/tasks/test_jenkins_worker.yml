@@ -1,0 +1,38 @@
+---
+# Tests for this role
+
+
+# Set up #
+- name: Create test file
+  file: path=testfile state=touch
+- name: Stat test file
+  stat: path=testfile
+  register: testfile
+
+
+# Tests #
+- name: Verify java cmd is using v 1.7
+  shell: java -version
+  register: java_version
+- assert:
+    that:
+      - "'1.7.0' in java_version.stderr"
+
+# Verify the virtualenv tar is newly-built
+- name: Get info on virtualenv tar
+  stat: path={{ jenkins_home }}/edx-venv_clean.tar.gz
+  register: edxvenv
+- assert:
+    that:
+# Assert that it was modified at least within the hour
+      - "{{ testfile.stat.mtime }} - {{ edxvenv.stat.mtime }} < 3600"
+
+# Verify the rbenv tar is newly-built
+- name: Get info on rbenv tar
+  stat: path={{ jenkins_home }}/edx-rbenv_clean.tar.gz
+  register: rbenv
+- assert:
+    that:
+# Assert that it was modified at least within the hour
+      - "{{ testfile.stat.mtime }} - {{ rbenv.stat.mtime }} < 3600"
+

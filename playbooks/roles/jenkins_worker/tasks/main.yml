@@ -12,3 +12,4 @@
 - include: python.yml
 - include: ruby.yml
 - include: jscover.yml
+- include: test_jenkins_worker.yml
