@@ -24,7 +24,7 @@
       - cms
       - lms
       - forum
-      - ora
+      #- ora
       - xqueue
       nginx_default_sites:
       - lms
@@ -38,8 +38,8 @@
     - elasticsearch
     - forum
     - { role: "xqueue", update_users: True }
-    - ora
-    - certs
+    #- ora
+    #- certs
     - edx_ansible
     - role: datadog
       when: COMMON_ENABLE_DATADOG
